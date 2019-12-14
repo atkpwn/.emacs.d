@@ -96,6 +96,52 @@
   :ensure t
   :config (which-key-mode))
 
+(use-package ido
+  :disabled t
+  :init
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode 1))
+
+(use-package ibuffer
+  :bind
+  ("C-x C-b" . ibuffer)
+  :hook
+  (ibuffer-mode . (lambda ()
+                    (ibuffer-auto-mode 1)
+                    (ibuffer-switch-to-saved-filter-groups "default")))
+  :init
+  (setq ibuffer-saved-filter-groups
+        '(("default"
+           ("dired" (mode . dired-mode))
+           ("org" (name . "^.*org$"))
+           ("magit" (mode . magit-mode))
+           ("web" (or (mode . web-mode)
+                      (mode . js2-mode)))
+           ("shell" (or (mode . eshell-mode)
+                        (mode . shell-mode)))
+           ("programming" (or
+                           (mode . python-mode)
+                           (mode . c++-mode)
+                           (mode . emacs-lisp-mode)
+                           (mode . lisp-mode)))
+           ("emacs" (or
+                     (name . "^\\*Packages\\*$")
+                     (name . "^\\*scratch\\*$")
+                     (name . "^\\*Messages\\*$")
+                     (name . "^\\*Error\\*$")
+                     (name . "^\\*Warnings\\*$")))
+           )))
+  (setq ibuffer-show-empty-filter-groups nil
+        ibuffer-expert t))
+
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode 1)
+  (defalias 'redo 'undo-tree-redo))
+
 (use-package counsel
   :ensure t)
 
