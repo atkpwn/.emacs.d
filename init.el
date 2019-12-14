@@ -29,8 +29,11 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
 (setq require-final-newline t
-      visible-bell 1
-      load-prefer-newer t)
+      load-prefer-newer t
+      backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                               "backups"))))
+(setq initial-scratch-message ""
+      visible-bell t)
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
