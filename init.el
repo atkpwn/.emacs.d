@@ -201,6 +201,20 @@
 
 (use-package unfill
   :bind ([remap fill-paragraph] . unfill-toggle))
+
+(use-package origami
+  :ensure t
+  :hook
+  (prog-mode . (lambda () (origami-mode)))
+  :bind
+  (("C-c c" . origami-recursively-toggle-node)
+   ("C-c o" . origami-show-only-node)
+   ("C-c S" . origami-open-all-nodes)))
+
+(use-package magit
+  :ensure t
+  :commands magit-status magit-blame
+  :bind ("C-x g" . magit-status))
 ;; end
 
 ;; specific mode settings
