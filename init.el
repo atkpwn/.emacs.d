@@ -53,6 +53,8 @@
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode)
+  :init
+  (column-number-mode t)
   )
 
 (use-package all-the-icons
@@ -73,8 +75,6 @@
   :hook
   (dired-mode . all-the-icons-dired-mode)
   )
-
-(column-number-mode t)
 ;; end
 
 ;; misc. tools
@@ -148,7 +148,7 @@
 (use-package ivy
   :ensure t
   :after counsel
-  :diminish (ivy-mode)
+  :diminish ivy-mode
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c C-r" . ivy-resume)
          ("M-x" . counsel-M-x)
@@ -165,21 +165,29 @@
 (use-package swiper
   :ensure t
   :after ivy
-  :bind ("C-s" . swiper)
-  :config (progn
-    (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)
+         :map ivy-minibuffer-map
+         ("C-s" . ivy-next-line)
+         ("C-r" . ivy-previous-line)
+         )
+  :config (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
 (use-package avy
   :ensure t
   :bind (("C-:" . avy-goto-char)
-         ("C-S-j" . avy-goto-word-1))
+         ("C-c j" . avy-goto-word-1)
+         ("C-c t" . avy-goto-char-timer))
   :config
   (setq avy-keys (number-sequence ?a ?z)))
 
 (use-package ace-window
   :ensure t
+  :diminish ace-window-mode
   :bind
-  ("C-x q" . ace-window))
+  ("C-x q" . ace-window)
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?o)))
 
 (use-package projectile
   :ensure t
@@ -210,12 +218,12 @@
 
 (use-package origami
   :ensure t
-  :hook
-  (prog-mode . (lambda () (origami-mode)))
   :bind
   (("C-c c" . origami-recursively-toggle-node)
    ("C-c o" . origami-show-only-node)
-   ("C-c S" . origami-open-all-nodes)))
+   ("C-c S" . origami-open-all-nodes))
+  :hook
+  (prog-mode . (lambda () (origami-mode))))
 
 (use-package magit
   :ensure t
@@ -226,12 +234,13 @@
 ;; specific mode settings
 (use-package org-bullets
   :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  :hook
+  (org-mode . (lambda () (org-bullets-mode 1))))
 
+;; reveal.js
 (use-package ox-reveal
   :ensure t
-  :defer
+  :defer t
   :config
   (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
   (setq org-reveal-mathjax t))
