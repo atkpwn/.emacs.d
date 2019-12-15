@@ -199,6 +199,12 @@
   :bind
   ("C-=" . er/expand-region))
 
+(use-package prog-mode
+  :hook
+  (prog-mode . (lambda ()
+                 (font-lock-add-keywords nil
+                                         '(("\\<\\(FIX\\|FIXME\\|TODO\\|BUG\\|HACK\\):" 1 font-lock-warning-face t))))))
+
 (use-package unfill
   :bind ([remap fill-paragraph] . unfill-toggle))
 
