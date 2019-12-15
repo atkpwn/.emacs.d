@@ -229,6 +229,17 @@
   :ensure t
   :commands magit-status magit-blame
   :bind ("C-x g" . magit-status))
+
+(use-package smartparens
+  :ensure t
+  :bind
+  (("C-)" . sp-forward-slurp-sexp)
+   ("C-(" . sp-backward-slurp-sexp)
+   ("C-}" . sp-forward-barf-sexp)
+   ("C-{" . sp-backward-barf-sexp))
+  :hook
+  ((prog-mode . smartparens-mode)
+   (org-mode . smartparens-mode)))
 ;; end
 
 ;; specific mode settings
