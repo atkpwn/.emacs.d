@@ -236,7 +236,9 @@
   (("C-)" . sp-forward-slurp-sexp)
    ("C-(" . sp-backward-slurp-sexp)
    ("C-}" . sp-forward-barf-sexp)
-   ("C-{" . sp-backward-barf-sexp))
+   ("C-{" . sp-backward-barf-sexp)
+   ("M-<delete>" . sp-unwrap-sexp)
+   ("M-<backspace>" . sp-backward-unwrap-sexp))
   :hook
   ((prog-mode . smartparens-mode)
    (org-mode . smartparens-mode)))
