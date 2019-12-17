@@ -75,6 +75,9 @@
   :hook
   (dired-mode . all-the-icons-dired-mode)
   )
+
+(use-package diminish
+  :ensure t)
 ;; end
 
 ;; misc. tools
@@ -94,6 +97,7 @@
 
 (use-package which-key
   :ensure t
+  :diminish
   :config (which-key-mode))
 
 (use-package ido
@@ -137,7 +141,7 @@
 
 (use-package undo-tree
   :ensure t
-  :diminish undo-tree-mode
+  :diminish
   :config
   (global-undo-tree-mode 1)
   (defalias 'redo 'undo-tree-redo))
@@ -183,7 +187,7 @@
 
 (use-package ace-window
   :ensure t
-  :diminish ace-window-mode
+  :diminish
   :bind
   ("C-x q" . ace-window)
   :init
@@ -218,6 +222,7 @@
 
 (use-package origami
   :ensure t
+  :diminish
   :bind
   (("C-c c" . origami-recursively-toggle-node)
    ("C-c o" . origami-show-only-node)
@@ -232,6 +237,7 @@
 
 (use-package smartparens
   :ensure t
+  :diminish
   :bind
   (("C-)" . sp-forward-slurp-sexp)
    ("C-(" . sp-backward-slurp-sexp)
