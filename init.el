@@ -6,9 +6,8 @@
                          ("melpa" . "https://melpa.org/packages/")))
 (package-initialize)
 
-(if (not package-archive-contents)
-  (package-refresh-contents))
 (unless (package-installed-p 'use-package)
+  (package-refresh-contents)
   (package-install 'use-package))
 
 ;; basic settings
@@ -52,9 +51,12 @@
 
 (use-package doom-modeline
   :ensure t
-  :hook (after-init . doom-modeline-mode)
+  :hook
+  (after-init . doom-modeline-mode)
   :init
   (column-number-mode t)
+  :config
+  (setq doom-modeline-buffer-file-name-style 'buffer-name)
   )
 
 (use-package all-the-icons
@@ -89,8 +91,7 @@
 (use-package rainbow-delimiters
   :ensure t
   :hook
-  (emacs-lisp-mode . rainbow-delimiters-mode)
-  (lisp-mode . rainbow-delimiters-mode))
+  (prog-mode . rainbow-delimiters-mode))
 
 (use-package try
   :ensure t)
@@ -111,10 +112,8 @@
   :bind
   ("C-x C-b" . ibuffer)
   :hook
-  (ibuffer-mode . (lambda ()
-                    (ibuffer-auto-mode 1)
-                    (ibuffer-switch-to-saved-filter-groups "default")))
-  :init
+  (ibuffer-mode . (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
+  :config
   (setq ibuffer-saved-filter-groups
         '(("default"
            ("dired" (mode . dired-mode))
@@ -190,8 +189,8 @@
   :diminish
   :bind
   ("C-x q" . ace-window)
-  :init
-  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?o)))
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
 
 (use-package projectile
   :ensure t
@@ -215,13 +214,13 @@
   :hook
   (prog-mode . (lambda ()
                  (font-lock-add-keywords nil
-                                         '(("\\<\\(FIX\\|FIXME\\|TODO\\|BUG\\|HACK\\):" 1 font-lock-warning-face t))))))
+                                         '(("\\(FIXME\\|FIX\\|TODO\\|BUG\\|HACK\\|!!!\\):" 1 font-lock-warning-face t))))))
 
 (use-package unfill
   :bind ([remap fill-paragraph] . unfill-toggle))
 
 (use-package origami
-  :ensure t
+  :disabled t
   :diminish
   :bind
   (("C-c c" . origami-recursively-toggle-node)
@@ -232,7 +231,6 @@
 
 (use-package magit
   :ensure t
-  :commands magit-status magit-blame
   :bind ("C-x g" . magit-status))
 
 (use-package smartparens
@@ -247,7 +245,12 @@
    ("M-<backspace>" . sp-backward-unwrap-sexp))
   :hook
   ((prog-mode . smartparens-mode)
-   (org-mode . smartparens-mode)))
+   (org-mode . smartparens-mode))
+  :config
+  (sp-local-pair 'emacs-lisp-mode "'" "")
+  (sp-local-pair 'lisp-mode "'" "")
+  )
+
 ;; end
 
 ;; specific mode settings
