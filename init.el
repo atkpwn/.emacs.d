@@ -239,8 +239,9 @@
   ((prog-mode . smartparens-mode)
    (org-mode . smartparens-mode))
   :config
-  (sp-local-pair 'emacs-lisp-mode "'" "")
-  (sp-local-pair 'lisp-mode "'" "")
+  (require 'smartparens-config)
+  (sp-local-pair 'lisp-mode "'" nil :actions nil)
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
   )
 
 ;; end
