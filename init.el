@@ -326,6 +326,9 @@
   (push 'company-lsp company-backends)
   )
 
+(require 'init-python)
+(require 'init-cc)
+
 (use-package org-bullets
   :ensure t
   :hook
