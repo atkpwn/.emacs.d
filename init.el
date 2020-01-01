@@ -1,3 +1,7 @@
+(defconst akp/lisp-directory (concat user-emacs-directory
+                                     (convert-standard-filename "lisp")))
+(add-to-list 'load-path akp/lisp-directory)
+
 (require 'package)
 (setq inhibit-startup-message t
       package-user-dir "~/.emacs.d/site-packages"
@@ -192,19 +196,6 @@
   :config
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
 
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode +1)
-  (setq projectile-completion-system 'ivy))
-
-(use-package counsel-projectile
-  :ensure t
-  :bind
-  ("C-c p" . projectile-command-map)
-  :config
-  (counsel-projectile-mode 1))
-
 (use-package expand-region
   :ensure t
   :bind
@@ -217,6 +208,7 @@
                                          '(("\\(FIXME\\|FIX\\|TODO\\|BUG\\|HACK\\|!!!\\):" 1 font-lock-warning-face t))))))
 
 (use-package unfill
+  :ensure t
   :bind ([remap fill-paragraph] . unfill-toggle))
 
 (use-package origami
@@ -253,7 +245,86 @@
 
 ;; end
 
-;; specific mode settings
+;; project and completion tools
+(use-package projectile
+  :ensure t
+  :config
+  (setq projectile-completion-system 'ivy))
+
+(use-package counsel-projectile
+  :ensure t
+  :bind
+  ("C-c p" . projectile-command-map)
+  :config
+  (counsel-projectile-mode 1))
+
+(use-package company
+  :ensure t
+  :diminish
+  :bind
+  ("M-/" . company-complete)
+  :hook
+  (after-init . global-company-mode)
+  :config
+  (use-package company-quickhelp
+    :ensure t
+    :config
+    (company-quickhelp-mode 1))
+  (setq company-idle-delay 0)
+  )
+
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode 1))
+
+(use-package flycheck
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :bind
+  (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
+  :diminish eldoc-mode
+  :commands lsp
+  :hook
+  (python-mode . lsp)
+  :custom
+  (lsp-auto-guess-root nil)
+  (lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :ensure t
+  :diminish
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references)
+              ("C-c l" . lsp-ui-imenu)
+              )
+  :hook
+  (lsp-mode . lsp-ui-mode)
+  :custom-face
+  (lsp-ui-doc-background ((nil (:background "#333388"))))
+  (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-include-signature t)
+  (lsp-ui-doc-position 'top)
+  (lsp-ui-sideline-enable t)
+  :config
+  (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
+    (setq mode-line-format nil))
+  )
+
+(use-package company-lsp
+  :ensure t
+  :config
+  (setq company-lsp-enable-snippet t)
+  (push 'company-lsp company-backends)
+  )
+
 (use-package org-bullets
   :ensure t
   :hook
