@@ -3,8 +3,7 @@
   :config
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
-  )
-(venv-workon "p3")
+  (venv-workon "p3"))
 
 (use-package py-autopep8
   :ensure
