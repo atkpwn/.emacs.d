@@ -6,7 +6,10 @@
   :init
   (require 'lsp)
   :config
-  (setq c-default-style "stroustrup")
-  )
+  (setq c-default-style "stroustrup"))
+
+(use-package smartparens
+  :config
+  (setq-default sp-escape-quotes-after-insert nil))
 
 (provide 'init-cc)
