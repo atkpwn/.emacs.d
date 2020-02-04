@@ -309,9 +309,9 @@
    #+BEGIN_SRC emacs-lisp
      (use-package prog-mode
        :hook
-       (prog-mode . (lambda ()
-                      (font-lock-add-keywords nil
-                                              '(("\\(FIX\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))))
+       (prog-mode . (lambda () (font-lock-add-keywords
+                           nil
+                           '(("\\(FIX\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))))
    #+END_SRC
 
 
