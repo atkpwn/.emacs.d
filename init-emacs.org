@@ -75,12 +75,6 @@
      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-
-     (show-paren-mode t)
-     (use-package rainbow-delimiters
-       :ensure t
-       :hook
-       (prog-mode . rainbow-delimiters-mode))
    #+END_SRC
 
 ** Themes and icons
@@ -254,26 +248,48 @@
        (defalias 'redo 'undo-tree-redo))
    #+END_SRC
 
-** Smartparens
-   #+BEGIN_SRC emacs-lisp
-     (use-package smartparens
-       :ensure t
-       :diminish
-       :bind
-       (("C-)" . sp-forward-slurp-sexp)
-        ("C-(" . sp-backward-slurp-sexp)
-        ("C-}" . sp-forward-barf-sexp)
-        ("C-{" . sp-backward-barf-sexp)
-        ("M-<delete>" . sp-unwrap-sexp)
-        ("M-<backspace>" . sp-backward-unwrap-sexp))
-       :hook
-       ((prog-mode . smartparens-mode)
-        (org-mode . smartparens-mode))
-       :config
-       (require 'smartparens-config)
-       (sp-local-pair 'lisp-mode "'" nil :actions nil)
-       (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
-   #+END_SRC
+** Parentheses
+*** Highlight and coloring
+    #+BEGIN_SRC emacs-lisp
+      (use-package paren
+        :custom
+        (show-paren-priority -1)
+        :config
+        (show-paren-mode t)
+        (add-hook 'after-save-hook 'check-parens nil t)
+        (setq show-paren-delay 0)
+        (set-face-background 'show-paren-match (face-background 'default))
+        (set-face-foreground 'show-paren-match "#afa")
+        (set-face-attribute  'show-paren-match nil :weight 'extra-bold)
+        (set-face-background 'show-paren-mismatch "#a33")
+        (set-face-attribute  'show-paren-mismatch nil :weight 'extra-bold))
+
+      (use-package rainbow-delimiters
+        :ensure t
+        :hook
+        (prog-mode . rainbow-delimiters-mode))
+    #+END_SRC
+
+*** Smartparens
+    #+BEGIN_SRC emacs-lisp
+      (use-package smartparens
+        :ensure t
+        :diminish
+        :bind
+        (("C-)"           . sp-forward-slurp-sexp)
+         ("C-("           . sp-backward-slurp-sexp)
+         ("C-}"           . sp-forward-barf-sexp)
+         ("C-{"           . sp-backward-barf-sexp)
+         ("M-<delete>"    . sp-unwrap-sexp)
+         ("M-<backspace>" . sp-backward-unwrap-sexp))
+        :hook
+        ((prog-mode . smartparens-mode)
+         (org-mode  . smartparens-mode))
+        :config
+        (require 'smartparens-config)
+        (sp-local-pair 'lisp-mode "'" nil :actions nil)
+        (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
+    #+END_SRC
 
 ** Expand region
    #+BEGIN_SRC emacs-lisp
