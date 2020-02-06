@@ -334,6 +334,14 @@
                            '(("\\(FIX\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))))
    #+END_SRC
 
+** Eldoc
+   #+BEGIN_SRC emacs-lisp
+     (use-package eldoc
+       :diminish
+       :hook
+       (prog-mode . turn-on-eldoc-mode))
+   #+END_SRC
+
 
 * Project and code management
 ** Magit
