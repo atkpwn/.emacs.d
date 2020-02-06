@@ -416,10 +416,7 @@
        (python-mode . lsp)
        :custom
        (lsp-auto-guess-root nil)
-       (lsp-prefer-flymake nil)
-       :config
-       (require 'init-python)
-       (require 'init-cc))
+       (lsp-prefer-flymake nil))
 
      (use-package company-lsp
        :ensure t
@@ -469,6 +466,21 @@
 
 
 * Major modes
+** Lisp
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-lisp)
+   #+END_SRC
+
+** Python
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-python)
+   #+END_SRC
+
+** C/C++
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-cc)
+   #+END_SRC
+
 ** CMake
    #+BEGIN_SRC emacs-lisp
      (use-package cmake-mode
