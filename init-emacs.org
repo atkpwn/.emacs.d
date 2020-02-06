@@ -3,50 +3,50 @@
 
 * Basic setup
 ** Packages and directories
-  #+BEGIN_SRC emacs-lisp
-    (defconst akp/lisp-directory (concat user-emacs-directory
-                                         (convert-standard-filename "lisp")))
-    (add-to-list 'load-path akp/lisp-directory)
+   #+BEGIN_SRC emacs-lisp
+     (defconst akp/lisp-directory (concat user-emacs-directory
+                                          (convert-standard-filename "lisp")))
+     (add-to-list 'load-path akp/lisp-directory)
 
-    (require 'package)
-    (setq inhibit-startup-message t)
-    (setq package-user-dir "~/.emacs.d/site-packages"
-          package-archives '(("org" . "https://orgmode.org/elpa/")
-                             ("gnu" . "https://elpa.gnu.org/packages/")
-                             ("melpa" . "https://melpa.org/packages/")))
+     (require 'package)
+     (setq inhibit-startup-message t)
+     (setq package-user-dir "~/.emacs.d/site-packages"
+           package-archives '(("org"   . "https://orgmode.org/elpa/")
+                              ("gnu"   . "https://elpa.gnu.org/packages/")
+                              ("melpa" . "https://melpa.org/packages/")))
 
-    (package-initialize)
+     (package-initialize)
 
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
-    (setq backup-directory-alist
-          `(("." . ,(concat user-emacs-directory "backups"))))
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+     (setq backup-directory-alist
+           `(("." . ,(concat user-emacs-directory "backups"))))
 
-    (use-package saveplace
-      :config
-      (setq-default save-place t)
-      (setq save-place-file (expand-file-name ".places" user-emacs-directory)))
-  #+END_SRC
+     (use-package saveplace
+       :config
+       (setq-default save-place t)
+       (setq save-place-file (expand-file-name ".places" user-emacs-directory)))
+   #+END_SRC
 
 ** Miscellaneous
-  #+BEGIN_SRC emacs-lisp
-    (fset 'yes-or-no-p 'y-or-n-p)
-    (setq require-final-newline t
-          load-prefer-newer t)
+   #+BEGIN_SRC emacs-lisp
+     (fset 'yes-or-no-p 'y-or-n-p)
+     (setq require-final-newline t
+           load-prefer-newer t)
 
-    (setq initial-scratch-message ""
-          visible-bell t)
+     (setq initial-scratch-message ""
+           visible-bell t)
 
-    (setq-default indent-tabs-mode nil)
-    (setq-default tab-width 4)
-    (setq scroll-conservatively 10000
-          scroll-preserve-screen-position t)
+     (setq-default indent-tabs-mode nil)
+     (setq-default tab-width 4)
+     (setq scroll-conservatively 10000
+           scroll-preserve-screen-position t)
 
-    ;; For English keyboard intl., with AltGr dead keys
-    (global-set-key (kbd "œ") 'counsel-M-x)
-    (global-set-key (kbd "M-z") 'zap-up-to-char)
-  #+END_SRC
+     ;; For English keyboard intl., with AltGr dead keys
+     (global-set-key (kbd "œ")   'counsel-M-x)
+     (global-set-key (kbd "M-z") 'zap-up-to-char)
+   #+END_SRC
 
 ** Helper
    #+BEGIN_SRC emacs-lisp
@@ -64,7 +64,7 @@
 ** Basics
    #+BEGIN_SRC emacs-lisp
      (when (display-graphic-p)
-       (setq initial-frame-alist '((width . 90)
+       (setq initial-frame-alist '((width  . 90)
                                    (height . 50))))
 
      (set-frame-font "JetBrains Mono 12" nil t)
@@ -172,7 +172,7 @@
   #+END_SRC
 
 
-* Motion and Searching
+* Motion and searching
 ** Buffers and files
    #+BEGIN_SRC emacs-lisp
      (use-package counsel
@@ -182,15 +182,16 @@
        :ensure t
        :after counsel
        :diminish ivy-mode
-       :bind (("M-x"     . counsel-M-x)
-              ;; ("C-x b"   . ivy-switch-buffer)
-              ("C-x b"   . counsel-switch-buffer)
-              ("C-x C-f" . counsel-find-file)
-              :map ivy-minibuffer-map
-              ("C-l" . ivy-backward-delete-char)
-              ("TAB" . ivy-alt-done)
-              ("RET" . ivy-alt-done)
-              ("C-j" . ivy-immediate-done))
+       :bind 
+       (("M-x"     . counsel-M-x)
+        ;; ("C-x b"   . ivy-switch-buffer)
+        ("C-x b"   . counsel-switch-buffer)
+        ("C-x C-f" . counsel-find-file)
+        :map ivy-minibuffer-map
+        ("C-l"     . ivy-backward-delete-char)
+        ("TAB"     . ivy-alt-done)
+        ("RET"     . ivy-alt-done)
+        ("C-j"     . ivy-immediate-done))
        :custom
        (ivy-extra-directories '())
        :config
@@ -205,12 +206,13 @@
      (use-package swiper
        :ensure t
        :after ivy
-       :bind (("C-s" . swiper)
-              ("C-r" . swiper)
-              :map ivy-minibuffer-map
-              ("C-s" . ivy-next-line)
-              ("C-r" . ivy-previous-line)
-              ("C-c C-r" . ivy-resume))
+       :bind
+       (("C-s"     . swiper)
+        ("C-r"     . swiper)
+        :map ivy-minibuffer-map
+        ("C-s"     . ivy-next-line)
+        ("C-r"     . ivy-previous-line)
+        ("C-c C-r" . ivy-resume))
        :config (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
    #+END_SRC
 
@@ -218,9 +220,10 @@
    #+BEGIN_SRC emacs-lisp
      (use-package avy
        :ensure t
-       :bind (("C-:" . avy-goto-char)
-              ("C-c j" . avy-goto-word-1)
-              ("C-c t" . avy-goto-char-timer))
+       :bind
+       (("C-:"   . avy-goto-char)
+        ("C-c j" . avy-goto-word-1)
+        ("C-c t" . avy-goto-char-timer))
        :config
        (setq avy-keys (number-sequence ?a ?z)))
    #+END_SRC
@@ -303,7 +306,8 @@
    #+BEGIN_SRC emacs-lisp
      (use-package unfill
        :ensure t
-       :bind ([remap fill-paragraph] . unfill-toggle))
+       :bind
+       ([remap fill-paragraph] . unfill-toggle))
    #+END_SRC
 
 ** Folding and unfolding
@@ -336,7 +340,8 @@
    #+BEGIN_SRC emacs-lisp
      (use-package magit
        :ensure t
-       :bind ("C-x g" . magit-status))
+       :bind 
+       ("C-x g" . magit-status))
    #+END_SRC
 
 ** Projectile
@@ -358,12 +363,13 @@
    #+BEGIN_SRC emacs-lisp
      (use-package dumb-jump
        :ensure t
-       :bind (("M-g o" . dumb-jump-go-other-window)
-              ("M-g j" . dumb-jump-go)
-              ("M-g b" . dumb-jump-back)
-              ("M-g i" . dumb-jump-go-prompt)
-              ("M-g x" . dumb-jump-go-prefer-external)
-              ("M-g z" . dumb-jump-go-prefer-external-other-window))
+       :bind
+       (("M-g o" . dumb-jump-go-other-window)
+        ("M-g j" . dumb-jump-go)
+        ("M-g b" . dumb-jump-back)
+        ("M-g i" . dumb-jump-go-prompt)
+        ("M-g x" . dumb-jump-go-prefer-external)
+        ("M-g z" . dumb-jump-go-prefer-external-other-window))
        :config
        (setq dumb-jump-selector 'ivy))
    #+END_SRC
@@ -429,11 +435,11 @@
      (use-package lsp-ui
        :ensure t
        :diminish
-       :bind (:map lsp-ui-mode-map
-                   ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-                   ([remap xref-find-references] . lsp-ui-peek-find-references)
-                   ("C-c l" . lsp-ui-imenu)
-                   )
+       :bind
+       (:map lsp-ui-mode-map
+             ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+             ([remap xref-find-references] . lsp-ui-peek-find-references)
+             ("C-c l" . lsp-ui-imenu))
        :hook
        (lsp-mode . lsp-ui-mode)
        :custom-face
