@@ -79,8 +79,14 @@
 
 ** Themes and icons
    #+BEGIN_SRC emacs-lisp
+     (use-package gruvbox-theme
+       :ensure t
+       :config
+       (load-theme 'gruvbox-dark-medium t))
+
      (use-package base16-theme
        :ensure t
+       :disabled
        :config
        (load-theme 'base16-eighties t))
 
