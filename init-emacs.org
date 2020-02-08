@@ -305,18 +305,33 @@
         :ensure t
         :diminish
         :bind
-        (("C-)"           . sp-forward-slurp-sexp)
-         ("C-("           . sp-backward-slurp-sexp)
-         ("C-}"           . sp-forward-barf-sexp)
-         ("C-{"           . sp-backward-barf-sexp)
-         ("M-<delete>"    . sp-unwrap-sexp)
-         ("M-<backspace>" . sp-backward-unwrap-sexp))
+        (("C-)"                      . sp-forward-slurp-sexp)
+         ("C-("                      . sp-backward-slurp-sexp)
+         ("C-}"                      . sp-forward-barf-sexp)
+         ("C-{"                      . sp-backward-barf-sexp)
+         ([remap delete-char]        . delete-char-or-unwrap-sexp)
+         ([remap backward-kill-word] . backward-kill-word-or-unwrap-sexp)
+         )
         :hook
         ((prog-mode . smartparens-mode)
          (org-mode  . smartparens-mode))
         :config
+        (defun delete-char-or-unwrap-sexp (N &optional KILLFLAG)
+          (interactive "p\nP")
+          (if (or (equal (char-after) ?\()
+                  (equal (char-after) ?\)))
+              (if (not (sp-unwrap-sexp N))
+                  (delete-char N KILLFLAG))
+            (delete-char N KILLFLAG)))
+        (defun backward-kill-word-or-unwrap-sexp (arg)
+          (interactive "p")
+          (if (or (equal (char-before) ?\()
+                  (equal (char-before) ?\)))
+              (if (not (sp-backward-unwrap-sexp arg))
+                  (backward-kill-word arg))
+            (backward-kill-word arg)))
         (require 'smartparens-config)
-        (sp-local-pair 'lisp-mode "'" nil :actions nil)
+        (sp-local-pair 'lisp-mode       "'" nil :actions nil)
         (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
     #+END_SRC
 
