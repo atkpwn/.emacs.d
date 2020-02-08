@@ -90,15 +90,6 @@
        :config
        (load-theme 'base16-eighties t))
 
-     (use-package doom-modeline
-       :ensure t
-       :hook
-       (after-init . doom-modeline-mode)
-       :init
-       (column-number-mode t)
-       :config
-       (setq doom-modeline-buffer-file-name-style 'buffer-name))
-
      (use-package all-the-icons
        :ensure t
        :defer 0)
@@ -114,6 +105,18 @@
        :after all-the-icons
        :hook
        (dired-mode . all-the-icons-dired-mode))
+   #+END_SRC
+
+** Mode line
+   #+BEGIN_SRC emacs-lisp
+     (use-package doom-modeline
+       :ensure t
+       :hook
+       (after-init . doom-modeline-mode)
+       :init
+       (column-number-mode t)
+       :config
+       (setq doom-modeline-buffer-file-name-style 'buffer-name))
 
      (use-package diminish
        :ensure t)
