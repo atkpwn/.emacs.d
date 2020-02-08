@@ -1,5 +1,5 @@
 #+STARTUP: overview
-#+TITLE:  Emacs Configuration File
+#+TITLE:   Emacs Configuration File
 
 * Basic setup
 ** Packages and directories
@@ -189,7 +189,7 @@
        :ensure t
        :after counsel
        :diminish ivy-mode
-       :bind 
+       :bind
        (("M-x"     . counsel-M-x)
         ;; ("C-x b"   . ivy-switch-buffer)
         ("C-x b"   . counsel-switch-buffer)
@@ -249,6 +249,11 @@
    
 
 * Editing
+** Basics
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'before-save-hook 'delete-trailing-whitespace)
+   #+END_SRC
+
 ** Undo and redo
    #+BEGIN_SRC emacs-lisp
      (use-package undo-tree
@@ -356,7 +361,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package magit
        :ensure t
-       :bind 
+       :bind
        ("C-x g" . magit-status))
    #+END_SRC
 
@@ -425,7 +430,7 @@
        (setq company-idle-delay 0.2))
    #+END_SRC
 
-** LSP Mode
+** LSP mode
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
        :ensure t
