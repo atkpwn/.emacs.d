@@ -226,6 +226,14 @@
        (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
    #+END_SRC
 
+** Goto-line-preview
+   #+BEGIN_SRC emacs-lisp
+     (use-package goto-line-preview
+       :ensure t
+       :bind
+       ([remap goto-line] . goto-line-preview))
+   #+END_SRC
+
 ** Jump
    #+BEGIN_SRC emacs-lisp
      (use-package avy
