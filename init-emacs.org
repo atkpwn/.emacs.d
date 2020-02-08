@@ -348,7 +348,7 @@
      (use-package unfill
        :ensure t
        :bind
-       ([remap fill-paragraph] . unfill-toggle))
+       ("M-Q" . unfill-paragraph))
    #+END_SRC
 
 ** Folding and unfolding
