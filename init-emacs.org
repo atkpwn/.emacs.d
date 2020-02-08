@@ -194,8 +194,7 @@
        :diminish ivy-mode
        :bind
        (("M-x"     . counsel-M-x)
-        ;; ("C-x b"   . ivy-switch-buffer)
-        ("C-x b"   . counsel-switch-buffer)
+        ("C-x b"   . ivy-switch-buffer)
         ("C-x C-f" . counsel-find-file)
         :map ivy-minibuffer-map
         ("C-l"     . ivy-backward-delete-char)
