@@ -249,7 +249,18 @@
        :config
        (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
    #+END_SRC
-   
+
+** Hydra
+   #+BEGIN_SRC emacs-lisp
+     (use-package hydra
+       :ensure t
+       :config
+       (defhydra hydra-org-motion (org-mode-map "C-c")
+         "org hydra"
+         ("p" org-previous-visible-heading "previous visible heading")
+         ("n" org-next-visible-heading     "next visible heading")))
+   #+END_SRC
+
 
 * Editing
 ** Basics
