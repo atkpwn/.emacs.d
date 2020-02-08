@@ -120,14 +120,15 @@
    #+END_SRC
 
 ** Line number
+   For programming and org mode, always turn on =linum= mode.
    #+BEGIN_SRC emacs-lisp
      (use-package linum
        :ensure t
        :hook
-       (prog-mode . linum-on))
+       ((prog-mode org-mode) . linum-on))
    #+END_SRC
 
-   I use the =linum-new-mode= function from [[https://github.com/howardabrams/dot-files/blob/master/emacs.org#line-numbers][Howard Abrams]]:
+   I use a (modified) =linum-new-mode= function from [[https://github.com/howardabrams/dot-files/blob/master/emacs.org#line-numbers][Howard Abrams]]:
    #+BEGIN_SRC emacs-lisp
      (use-package linum-relative
        :ensure t
@@ -136,11 +137,11 @@
        :config
        (defun linum-new-mode ()
          "If line numbers aren't displayed, then display them.
-                Otherwise, toggle between absolute and relative numbers."
+          Otherwise, toggle between absolute and relative numbers."
          (interactive)
          (if linum-mode
-             (linum-relative-toggle)
-           (linum-mode 1))))
+             (linum-relative-toggle))
+           (linum-mode 1)))
    #+END_SRC
 
 
