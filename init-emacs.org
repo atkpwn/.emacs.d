@@ -488,6 +488,11 @@
 
 
 * Major modes
+** Org
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-org)
+   #+END_SRC
+
 ** Lisp
    #+BEGIN_SRC emacs-lisp
      (require 'init-lisp)
