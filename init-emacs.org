@@ -240,8 +240,8 @@
        :ensure t
        :bind
        (("C-:"   . avy-goto-char)
-        ("C-c j" . avy-goto-word-1)
-        ("C-c t" . avy-goto-char-timer))
+        ("C-;"   . avy-goto-word-1)
+        ("C-c ;" . avy-goto-char-timer))
        :config
        (setq avy-keys (number-sequence ?a ?z)))
    #+END_SRC
@@ -254,7 +254,7 @@
        :bind
        ("C-x q" . ace-window)
        :config
-       (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l ?\;)))
+       (setq aw-keys '(?j ?k ?l ?\; ?a ?s ?d ?f)))
    #+END_SRC
 
 ** Hydra
