@@ -466,17 +466,16 @@
        (setq company-idle-delay 0.2))
    #+END_SRC
 
-** LSP mode
+** Language Server Protocol
+   I haven't really tried [[https://github.com/joaotavora/eglot][Eglot]] yet, but [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] with some
+   customization works pretty well for me.
    #+BEGIN_SRC emacs-lisp
      (use-package lsp-mode
        :ensure t
-       :defer t
        :bind
-       (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
-       :diminish eldoc-mode
+       (:map lsp-mode-map
+             ("C-c C-f" . lsp-format-buffer))
        :commands lsp
-       :hook
-       (python-mode . lsp)
        :custom
        (lsp-auto-guess-root nil)
        (lsp-prefer-flymake nil))
@@ -488,29 +487,20 @@
        (push 'company-lsp company-backends))
    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package lsp-ui
-       :ensure t
-       :diminish
-       :bind
-       (:map lsp-ui-mode-map
-             ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-             ([remap xref-find-references] . lsp-ui-peek-find-references)
-             ("C-c l" . lsp-ui-imenu))
-       :hook
-       (lsp-mode . lsp-ui-mode)
-       :custom-face
-       (lsp-ui-doc-background ((nil (:background "#555555"))))
-       (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
-       :custom
-       (lsp-ui-doc-enable t)
-       (lsp-ui-doc-include-signature t)
-       (lsp-ui-doc-position 'top)
-       (lsp-ui-sideline-enable t)
-       :config
-       (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
-         (setq mode-line-format nil)))
-   #+END_SRC
+*** Interface
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-ui
+        :ensure t
+        :bind
+        (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references]  . lsp-ui-peek-find-references))
+        :hook
+        (lsp-mode  . lsp-ui-mode)
+        :custom
+        (lsp-ui-doc-enable nil)
+        (lsp-prefer-flymake nil))
+    #+END_SRC
 
 ** Yasnippet
    #+BEGIN_SRC emacs-lisp

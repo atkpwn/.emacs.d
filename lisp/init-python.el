@@ -1,3 +1,7 @@
+(use-package python
+  :hook
+  (python-mode . lsp))
+
 (use-package virtualenvwrapper
   :ensure t
   :config
