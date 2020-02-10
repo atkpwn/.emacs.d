@@ -208,6 +208,13 @@
        (setq ivy-use-virtual-buffers t)
        (setq ivy-count-format "%d/%d ")
        (setq ivy-display-style 'fancy))
+
+     (use-package ivy-rich
+       :ensure t
+       :defer 0
+       :config
+       (ivy-rich-mode 1)
+       (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
    #+END_SRC
 
 ** Search in the current buffer
