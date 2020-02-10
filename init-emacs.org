@@ -363,17 +363,25 @@
 
 ** Folding and unfolding
    #+BEGIN_SRC emacs-lisp
-    (use-package origami
-      :ensure t
-      ;; :disabled t
-      :diminish
-      :bind
-      (("C-c c" . origami-recursively-toggle-node)
-       ("C-c o" . origami-open-node-recursively)
-       ("C-c O" . origami-show-only-node)
-       ("C-c S" . origami-open-all-nodes))
-      :hook
-      (prog-mode . (lambda () (origami-mode))))
+     (use-package origami
+       :ensure t
+       :diminish
+       :hook
+       (prog-mode . (lambda () (origami-mode)))
+       :config
+       (defhydra hydra-origami (prog-mode-map "C-c" :hint nil)
+         "
+         toggle _f_orward    _n_ext fold        _o_pen node    show _a_ll nodes    _R_eset
+         _c_ancel            _p_revious fold    ^ ^            show _O_nly node
+         "
+         ("f" origami-forward-toggle-node)
+         ("c" nil :color blue)
+         ("n" origami-next-fold)
+         ("p" origami-previous-fold)
+         ("o" origami-open-node-recursively)
+         ("a" origami-open-all-nodes)
+         ("O" origami-show-only-node)
+         ("R" origami-reset)))
    #+END_SRC
 
 ** Highlight some keywords
