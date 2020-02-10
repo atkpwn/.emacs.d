@@ -27,7 +27,11 @@
      (shell      . t)
      (python     . t)))
   (add-to-list 'org-babel-default-header-args:python
-               '(:results . "output")))
+               '(:results . "output"))
+  (defhydra hydra-org-motion (org-mode-map "C-c")
+    "org hydra"
+    ("p" org-previous-visible-heading "previous visible heading")
+    ("n" org-next-visible-heading     "next visible heading")))
 
 (use-package org-bullets
   :ensure t
