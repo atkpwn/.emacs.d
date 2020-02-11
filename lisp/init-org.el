@@ -7,6 +7,7 @@
   :bind
   (("C-c l" . org-store-link)
    ("C-c a" . org-agenda)
+   ("C-c c" . org-capture)
    :map org-src-mode-map
    ("C-x C-s" . (lambda ()
                   (interactive)
@@ -19,8 +20,9 @@
                 (eldoc-mode 1)))
   :custom
   (org-confirm-babel-evaluate nil)
+  (org-hide-emphasis-markers nil)
+  (org-log-done t)
   :config
-  (setq org-hide-emphasis-markers t)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
