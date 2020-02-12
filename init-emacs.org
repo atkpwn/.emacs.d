@@ -31,6 +31,8 @@
 
 ** Miscellaneous
    #+BEGIN_SRC emacs-lisp
+     (setq gc-cons-threshold 50000000)
+
      (fset 'yes-or-no-p 'y-or-n-p)
      (setq require-final-newline t
            load-prefer-newer t)
@@ -85,7 +87,6 @@
        (load-theme 'gruvbox-dark-medium t))
 
      (use-package base16-theme
-       :ensure t
        :disabled
        :config
        (load-theme 'base16-eighties t))
@@ -196,6 +197,8 @@
        (("M-x"     . counsel-M-x)
         ("C-x b"   . ivy-switch-buffer)
         ("C-x C-f" . counsel-find-file)
+        ("C-c i"   . counsel-imenu)
+        ("C-c g"   . counsel-git)
         :map ivy-minibuffer-map
         ("C-l"     . ivy-backward-delete-char)
         ("TAB"     . ivy-alt-done)
@@ -225,10 +228,10 @@
        :bind
        (("C-s"     . swiper)
         ("C-r"     . swiper)
+        ("C-c C-r" . ivy-resume)
         :map ivy-minibuffer-map
         ("C-s"     . ivy-next-line)
-        ("C-r"     . ivy-previous-line)
-        ("C-c C-r" . ivy-resume))
+        ("C-r"     . ivy-previous-line))
        :config
        (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
    #+END_SRC
@@ -320,8 +323,7 @@
          ("C-}"                      . sp-forward-barf-sexp)
          ("C-{"                      . sp-backward-barf-sexp)
          ([remap delete-char]        . delete-char-or-unwrap-sexp)
-         ([remap backward-kill-word] . backward-kill-word-or-unwrap-sexp)
-         )
+         ([remap backward-kill-word] . backward-kill-word-or-unwrap-sexp))
         :hook
         ((prog-mode . smartparens-mode)
          (org-mode  . smartparens-mode))
@@ -369,7 +371,7 @@
        :hook
        (prog-mode . (lambda () (origami-mode)))
        :config
-       (defhydra hydra-origami (prog-mode-map "C-c" :hint nil)
+       (defhydra hydra-origami (prog-mode-map "C-c f" :hint nil)
          "
          toggle _f_orward    _n_ext fold        _o_pen node    show _a_ll nodes    _R_eset
          _c_ancel            _p_revious fold    ^ ^            show _O_nly node
