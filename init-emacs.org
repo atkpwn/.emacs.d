@@ -211,13 +211,45 @@
        (setq ivy-use-virtual-buffers t)
        (setq ivy-count-format "%d/%d ")
        (setq ivy-display-style 'fancy))
+   #+END_SRC
 
+   I also use =ivy-rich= package. However, it needs some modifications
+   to make it work with =all-the-icons= because the basic customization
+   on [[https://github.com/Yevgnen/ivy-rich#1312-add-icons-for-ivy-switch-buffer][Github]] only apply to existing buffers.
+   #+BEGIN_SRC emacs-lisp
      (use-package ivy-rich
        :ensure t
        :defer 0
        :config
-       (ivy-rich-mode 1)
-       (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+       (defun ivy-rich-switch-buffer-icon (cand)
+         (let ((buffer (get-buffer cand)))
+           (if buffer
+               (with-current-buffer buffer
+                 (all-the-icons-icon-for-mode major-mode))
+             (all-the-icons-icon-for-file cand))))
+       (defun predicate-wrapper (fun candidate)
+         (let ((buffer (get-buffer candidate)))
+           (if buffer
+               (funcall fun candidate)
+             "")))
+       (advice-add 'ivy-rich-switch-buffer-size :around #'predicate-wrapper)
+       (advice-add 'ivy-rich-switch-buffer-indicators :around #'predicate-wrapper)
+       (advice-add 'ivy-rich-switch-buffer-major-mode :around #'predicate-wrapper)
+       (advice-add 'ivy-rich-switch-buffer-project :around #'predicate-wrapper)
+       (advice-add 'ivy-rich-switch-buffer-path :around #'predicate-wrapper)
+       (setq ivy-rich--display-transformers-list
+             '(ivy-switch-buffer
+               (:columns
+                ((ivy-rich-switch-buffer-icon (:width 2))
+                 (ivy-rich-candidate (:width 30))
+                 (ivy-rich-switch-buffer-size (:width 7))
+                 (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
+                 (ivy-rich-switch-buffer-major-mode (:width 12 :face warning))
+                 (ivy-rich-switch-buffer-project (:width 15 :face success))
+                 (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))
+                :delimiter "\t")))
+       (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+       (ivy-rich-mode 1))
    #+END_SRC
 
 ** Search in the current buffer
