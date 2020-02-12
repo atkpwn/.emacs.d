@@ -345,6 +345,9 @@
     #+END_SRC
 
 *** Smartparens
+    I define =delete-char-or-unwrap-sexp= and
+    =backward-kill-word-or-unwrap-sexp= and bind them to the basic
+    delete/kill keys to help me work with parentheses more easily.
     #+BEGIN_SRC emacs-lisp
       (use-package smartparens
         :ensure t
@@ -360,23 +363,20 @@
         ((prog-mode . smartparens-mode)
          (org-mode  . smartparens-mode))
         :config
+        (require 'paren)
         (defun delete-char-or-unwrap-sexp (N &optional KILLFLAG)
           (interactive "p\nP")
-          (if (or (equal (char-after) ?\()
-                  (equal (char-after) ?\)))
+          (if (show-paren--default)
               (if (not (sp-unwrap-sexp N))
                   (delete-char N KILLFLAG))
             (delete-char N KILLFLAG)))
         (defun backward-kill-word-or-unwrap-sexp (arg)
           (interactive "p")
-          (if (or (equal (char-before) ?\()
-                  (equal (char-before) ?\)))
+          (if (show-paren--default)
               (if (not (sp-backward-unwrap-sexp arg))
                   (backward-kill-word arg))
             (backward-kill-word arg)))
-        (require 'smartparens-config)
-        (sp-local-pair 'lisp-mode       "'" nil :actions nil)
-        (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
+        (require 'smartparens-config))
     #+END_SRC
 
 ** Expand region
