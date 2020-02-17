@@ -20,8 +20,12 @@
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
-     (setq backup-directory-alist
-           `(("." . ,(concat user-emacs-directory "backups"))))
+
+     (let ((backup-dir (concat user-emacs-directory "backups/")))
+       (setq backup-directory-alist
+             `((".*" . ,backup-dir)))
+       (setq auto-save-file-name-transforms
+             `((".*" ,backup-dir t))))
 
      (use-package saveplace
        :config
@@ -194,7 +198,6 @@
 
      (use-package ivy
        :ensure t
-       :after counsel
        :diminish ivy-mode
        :bind
        (("M-x"     . counsel-M-x)
@@ -224,21 +227,36 @@
      (use-package ivy-rich
        :ensure t
        :defer 0
+       :after all-the-icons-ivy
        :config
+       (require 'all-the-icons-ivy)
        (ivy-rich-mode 1)
        (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
        (defun all-the-icons-ivy-rich-transformer (s)
-         "Must be run after initializing `ivy-rich-mode' so that the
-          transformer is constructed, and `ivy-switch-buffer' must be
-          defined in `ivy-rich-display-transformers-list'"
+         "Can run only after initializing `ivy-rich-mode' so that the
+          transformer is constructed, i.e., `ivy-switch-buffer' is in
+          `ivy-rich-display-transformers-list'"
          (let* ((icon (all-the-icons-ivy-buffer-transformer s))
                 (rich (ivy-rich--ivy-switch-buffer-transformer s))
                 (info (substring rich (string-width s) (string-width rich))))
            (concat icon info)))
+       (defun all-the-icons-ivy-rich-counsel-recentf-transformer (s)
+         "Can run only after initializing `ivy-rich-mode' so that the
+          transformer is constructed, i.e., `counsel-recentf' is in
+          `ivy-rich-display-transformers-list'"
+         (let* ((icon (all-the-icons-ivy-buffer-transformer s))
+                (rich (ivy-rich--counsel-recentf-transformer s))
+                (info (substring rich (string-width s) (string-width rich))))
+           (concat icon info)))
+
        (ivy-set-display-transformer 'ivy-switch-buffer
                                     'all-the-icons-ivy-rich-transformer)
        (ivy-set-display-transformer 'counsel-find-file
-                                    'all-the-icons-ivy-rich-transformer))
+                                    'all-the-icons-ivy-rich-transformer)
+       (ivy-set-display-transformer 'counsel-dired-jump
+                                    'all-the-icons-ivy-rich-transformer)
+       (ivy-set-display-transformer 'counsel-recentf
+                                    'all-the-icons-ivy-rich-counsel-recentf-transformer))
    #+END_SRC
 
 ** Search in the current buffer
@@ -247,14 +265,11 @@
        :ensure t
        :after ivy
        :bind
-       (("C-s"     . swiper)
-        ("C-r"     . swiper)
-        ("C-c C-r" . ivy-resume)
+       (("C-s" . swiper)
+        ("C-r" . ivy-resume)
         :map ivy-minibuffer-map
-        ("C-s"     . ivy-next-line)
-        ("C-r"     . ivy-previous-line))
-       :config
-       (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+        ("C-s" . ivy-next-line)
+        ("C-r" . ivy-previous-line)))
    #+END_SRC
 
 ** Goto-line-preview
@@ -390,7 +405,7 @@
        :ensure t
        :diminish
        :hook
-       (prog-mode . (lambda () (origami-mode)))
+       (prog-mode . origami-mode)
        :config
        (defhydra hydra-origami (prog-mode-map "C-c f" :hint nil)
          "
@@ -413,7 +428,7 @@
        :hook
        (prog-mode . (lambda () (font-lock-add-keywords
                            nil
-                           '(("\\(FIX\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))))
+                           '(("\\(FIX\\|FIXME\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))))
    #+END_SRC
 
 ** Eldoc
@@ -446,7 +461,14 @@
        :bind
        ("C-c p" . projectile-command-map)
        :config
-       (counsel-projectile-mode 1))
+       (counsel-projectile-mode 1)
+       (when (featurep 'ivy-rich)
+         (ivy-set-display-transformer 'counsel-projectile
+                                      'all-the-icons-ivy-rich-transformer)
+         (ivy-set-display-transformer 'counsel-projectile-find-file
+                                      'all-the-icons-ivy-rich-transformer)
+         (ivy-set-display-transformer 'counsel-projectile-find-dir
+                                      'all-the-icons-ivy-rich-transformer)))
    #+END_SRC
 
 ** Dumb jump
