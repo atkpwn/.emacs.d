@@ -79,6 +79,7 @@
        (set-fontset-font t 'unicode "Norasi" nil 'prepend))
 
      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+     (global-set-key [f10] 'menu-bar-mode)
      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
    #+END_SRC
@@ -407,7 +408,7 @@
        :hook
        (prog-mode . origami-mode)
        :config
-       (defhydra hydra-origami (prog-mode-map "C-c f" :hint nil)
+       (defhydra hydra-origami (:hint nil)
          "
          toggle _f_orward    _n_ext fold        _o_pen node    show _a_ll nodes    _R_eset
          _c_ancel            _p_revious fold    ^ ^            show _O_nly node
@@ -600,6 +601,11 @@
        :ensure t)
    #+END_SRC
 
+** LaTeX
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-latex)
+   #+END_SRC
+
 
 * Keep everything up to date!
   #+BEGIN_SRC emacs-lisp
@@ -610,6 +616,19 @@
       (setq auto-package-update-hide-results t)
       (auto-package-update-maybe))
   #+END_SRC
+
+
+* Key Bindings
+  Define mapping for every mode that uses =hydra= here using =key-chord=:
+** Key chord
+   #+BEGIN_SRC emacs-lisp
+     (use-package key-chord
+       :ensure t
+       :config
+       (key-chord-mode 1)
+       (key-chord-define-global       " f" 'hydra-origami/body)
+       (key-chord-define org-mode-map " o" 'hydra-org/body))
+   #+END_SRC
 
 
 * Show initializing time
