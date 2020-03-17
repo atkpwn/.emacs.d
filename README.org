@@ -1,23 +1,28 @@
 #+TITLE: Emacs Configuration File
 
-This is my =.emacs.d=. It is very much influenced by the following sources:
+This is my =.emacs.d=. It is very much influenced by the following
+sources:
 
-+ [[https://github.com/howardabrams/dot-files][Howard Abrams' dot-files
-  ]]This is a very well organized and complete emacs configuration.
++ [[https://github.com/howardabrams/dot-files][Howard Abrams' dot-files]]\\
+  This is a very well organized and complete emacs configuration.
 
-+ [[https://github.com/zamansky/using-emacs][Mike Zamansky's using-emacs]]
++ [[https://github.com/zamansky/dot-emacs][Mike Zamansky's using-emacs]]\\
   A repository of a nice "Using Emacs" series on Youtube by [[https://cestlaz.github.io/][Mike]].
 
-+ [[https://github.com/jwiegley/dot-emacs][John Wiegley's dot-emacs]]
++ [[https://github.com/jwiegley/dot-emacs][John Wiegley's dot-emacs]]\\
   He is the author of =use-package= and many other packages.
 
+The starting point of the configuration is [[./init-emacs.org][init-emacs.org]].
+
 * Setup
-  + [[https://www.jetbrains.com/lp/mono/#how-to-install][Jetbrains Mono Font]].
+  + [[https://www.jetbrains.com/lp/mono/#how-to-install][Jetbrains Mono Font]]
 
   + [[https://github.com/domtronn/all-the-icons.el#installing-fonts][All-the-icons]]\\
     =M-x all-the-icons-install-fonts=
-    
+
   + Python Environment\\
     I use =virtualenvwrapper=. See [[https://virtualenvwrapper.readthedocs.io/][here]].
 
   + [[https://github.com/ggreer/the_silver_searcher#installing][Silversearcher]]
+
+  + [[https://github.com/astoff/digestif][Digestif]] language server for LaTeX
