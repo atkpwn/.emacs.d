@@ -631,6 +631,13 @@
    #+END_SRC
 
 
+* Miscellaneous
+** Tramp
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-tramp)
+   #+END_SRC
+
+
 * Show initializing time
   #+BEGIN_SRC emacs-lisp
     (message "Started in %s" (emacs-init-time))
