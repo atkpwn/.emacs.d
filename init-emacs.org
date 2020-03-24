@@ -658,6 +658,21 @@
      fi
    #+END_SRC
 
+** Workspace
+   #+BEGIN_SRC emacs-lisp
+     (use-package eyebrowse
+       :ensure t
+       :diminish
+       :config
+       (eyebrowse-mode t)
+       (setq eyebrowse-new-workspace t))
+   #+END_SRC
+
+** Agenda files
+   #+BEGIN_SRC emacs-lisp
+     (setq org-agenda-files (directory-files "~/orgfiles" t "\\.org$"))
+   #+END_SRC
+
 
 * Show initializing time
   #+BEGIN_SRC emacs-lisp
