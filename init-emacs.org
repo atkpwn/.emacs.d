@@ -634,7 +634,28 @@
 * Miscellaneous
 ** Tramp
    #+BEGIN_SRC emacs-lisp
-     (require 'init-tramp)
+     (use-package tramp
+       :custom
+       (tramp-password-prompt-regexp
+        (concat
+         "^.*"
+         (regexp-opt
+          '(;; OTP
+            "OTP"
+            ;; English
+            "password" "Password"
+            ;; Deutsch
+            "passwort" "Passwort")
+          t)
+         ".*:\0? *"))
+       )
+   #+END_SRC
+
+   Consider adding the following to .bash_profile of the server:
+   #+BEGIN_SRC bash
+     if test "$TERM" = "dumb"; then
+         export PS1="$ "
+     fi
    #+END_SRC
 
 
