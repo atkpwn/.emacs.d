@@ -1,3 +1,18 @@
+(require 'cl)
+
+;; See
+;; https://github.com/howardabrams/dot-files/blob/master/emacs-elisp.org
+
+(use-package dash
+  :ensure t
+  :config (eval-after-load "dash" '(dash-enable-font-lock)))
+
+(use-package s
+  :ensure t)
+
+(use-package f
+  :ensure t)
+
 (use-package lisp-mode
   :init
   (defvar lisp--prettify-symbols-alist

@@ -425,11 +425,18 @@
 
 ** Highlight some keywords
    #+BEGIN_SRC emacs-lisp
+     (defun highlight-keywords ()
+     (interactive)
+       (font-lock-add-keywords
+        nil
+        '(("\\(FIX\\|FIXME\\|NOTE\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp
+     ;; TODO: highlight keywords for latex
      (use-package prog-mode
        :hook
-       (prog-mode . (lambda () (font-lock-add-keywords
-                           nil
-                           '(("\\(FIX\\|FIXME\\|TODO\\|!!!\\):" 1 font-lock-warning-face t))))))
+       (prog-mode . highlight-keywords))
    #+END_SRC
 
 ** Eldoc
@@ -517,6 +524,7 @@
        :config
        (use-package company-quickhelp
          :ensure t
+         :disabled
          :config
          (company-quickhelp-mode 1))
        (setq company-idle-delay 0.2))
@@ -601,9 +609,26 @@
        :ensure t)
    #+END_SRC
 
+** Eshell
+   #+BEGIN_SRC emacs-lisp
+     (require 'init-eshell)
+   #+END_SRC
+
 ** LaTeX
    #+BEGIN_SRC emacs-lisp
-     (require 'init-latex)
+     (use-package init-latex
+       :config
+       ;; (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
+       (setq TeX-view-program-selection '((output-pdf "Evince")))
+       )
+   #+END_SRC
+
+** Jekyll
+   #+BEGIN_SRC  emacs-lisp
+     (use-package jekyll-modes
+       :config
+       (add-to-list 'auto-mode-alist '("\\.md$" . jekyll-markdown-mode))
+     )
    #+END_SRC
 
 
@@ -611,6 +636,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package auto-package-update
       :ensure t
+      :disabled ;; some packages do not work after update
       :config
       (setq auto-package-update-delete-old-versions t)
       (setq auto-package-update-hide-results t)
@@ -623,10 +649,11 @@
 ** Key chord
    #+BEGIN_SRC emacs-lisp
      (use-package key-chord
+       :disabled
        :ensure t
        :config
        (key-chord-mode 1)
-       (key-chord-define-global       " f" 'hydra-origami/body)
+       (key-chord-define-global       " h" 'hydra-origami/body)
        (key-chord-define org-mode-map " o" 'hydra-org/body))
    #+END_SRC
 

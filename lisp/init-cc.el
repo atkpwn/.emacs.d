@@ -1,12 +1,17 @@
 (use-package cc-mode
-  :defer t
+  :disabled
   :hook
-  ((c-mode . lsp)
+  ((c-mode   . lsp)
    (c++-mode . lsp))
   :init
   (require 'lsp)
   :config
-  (setq c-default-style "stroustrup"))
+  (setq c-default-style "google-c-style"))
+
+(use-package google-c-style
+  :ensure t
+  :hook
+  ((c-mode c++-mode) . google-set-c-style))
 
 (use-package smartparens
   :config
